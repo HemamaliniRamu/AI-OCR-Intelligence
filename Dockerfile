@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
@@ -12,9 +12,10 @@ RUN apt-get update && \
 COPY . .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Render provides the PORT environment variable
+# Render port
 EXPOSE 10000
 
 CMD streamlit run app.py --server.address=0.0.0.0 --server.port=${PORT:-10000}
